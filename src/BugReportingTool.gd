@@ -34,8 +34,11 @@ func create_backend() -> BugReportingBackendFacade:
 	match(config.backend):
 		BugReportingConfig.BackendType.Trello:
 			return BugReportingBackendTrello.new()
+		BugReportingConfig.BackendType.Jira:
+			return BugReportingBackendJira.new()
 	
-	return BugReportingBackendDummy.new()
+	printerr("BugReportingTool: Unimplemented Backend")
+	return BugReportingBackendFacade.new()
 
 func show_window():
 	screenshot_data = get_viewport().get_texture().get_data()

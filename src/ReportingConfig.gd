@@ -1,7 +1,7 @@
 extends Resource
 class_name BugReportingConfig
 
-enum BackendType {Dummy, Trello, Jira}
+enum BackendType {Trello, Jira}
 
 # The URL pointing to the webserver location where "proxy.php" from this
 # repository is served.
