@@ -1,33 +1,175 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://src/Trello_Reporting_Tool.gd" type="Script" id=1]
+[ext_resource path="res://UI/Scripts/Trello_Reporting_Tool.gd" type="Script" id=1]
+[ext_resource path="res://Assets/2D/constructionFX.png" type="Texture" id=2]
+[ext_resource path="res://Assets/CanvasShaders/UI_BlurredBG.gdshader" type="Shader" id=3]
+[ext_resource path="res://Resources/Theme.tres" type="Theme" id=4]
+[ext_resource path="res://UI/Scripts/Menu_Btn.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Assets/CanvasShaders/UI_ButtonLayer.gdshader" type="Shader" id=6]
 
-[node name="Trello_Reporting_Tool" type="Panel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -512.0
-margin_top = -300.0
-margin_right = -212.0
-margin_bottom = -40.0
+[sub_resource type="Gradient" id=211]
+offsets = PoolRealArray( 0, 0.506993, 0.996503 )
+colors = PoolColorArray( 0, 0.554688, 1, 1, 0.856567, 1, 0.265625, 1, 0.00784314, 0.560784, 0.996078, 1 )
+
+[sub_resource type="GradientTexture" id=268]
+gradient = SubResource( 211 )
+
+[sub_resource type="ShaderMaterial" id=426]
+shader = ExtResource( 3 )
+shader_param/darkening = 0.546
+shader_param/blur_power = 4.01
+shader_param/alpha_multi = 0.0
+shader_param/multi_color = Color( 1, 1, 1, 1 )
+shader_param/rot = 45.0
+shader_param/tex_size = Vector2( 32, 32 )
+shader_param/red = Color( 0, 0, 0, 1 )
+shader_param/green = Color( 0, 0, 0, 1 )
+shader_param/blue = Color( 0, 0, 0, 1 )
+shader_param/buildFrameColor = Color( 1.3, 5, 3.69922, 1 )
+shader_param/buildGlow = Color( 2.88984, 1.3, 5, 1 )
+shader_param/buildAmount = 50.0
+shader_param/grad = SubResource( 268 )
+shader_param/buildTex = ExtResource( 2 )
+
+[sub_resource type="Gradient" id=423]
+offsets = PoolRealArray( 0, 0.506993, 0.996503 )
+colors = PoolColorArray( 0, 0.554688, 1, 1, 0.856567, 1, 0.265625, 1, 0.00784314, 0.560784, 0.996078, 1 )
+
+[sub_resource type="GradientTexture" id=430]
+gradient = SubResource( 423 )
+
+[sub_resource type="ShaderMaterial" id=427]
+shader = ExtResource( 3 )
+shader_param/darkening = 0.26
+shader_param/blur_power = 5.509
+shader_param/alpha_multi = 0.0
+shader_param/multi_color = Color( 0.8, 0.6, 1.10196, 1 )
+shader_param/rot = 45.0
+shader_param/tex_size = Vector2( 32, 32 )
+shader_param/red = Color( 0, 0, 0, 1 )
+shader_param/green = Color( 0, 0, 0, 1 )
+shader_param/blue = Color( 0, 0, 0, 1 )
+shader_param/buildFrameColor = Color( 1.3, 5, 3.69922, 1 )
+shader_param/buildGlow = Color( 2.88984, 1.3, 5, 1 )
+shader_param/buildAmount = 50.0
+shader_param/grad = SubResource( 430 )
+shader_param/buildTex = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=343]
+bg_color = Color( 0.521569, 0, 1, 0.2 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 1, 1, 1, 0 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+
+[sub_resource type="DynamicFontData" id=431]
+font_path = "res://Assets/Fonts/Jura-Medium.ttf"
+
+[sub_resource type="DynamicFont" id=346]
+size = 23
+use_mipmaps = true
+use_filter = true
+extra_spacing_top = -5
+font_data = SubResource( 431 )
+
+[sub_resource type="Gradient" id=349]
+offsets = PoolRealArray( 0, 0.375839, 1 )
+colors = PoolColorArray( 0.320496, 0.627646, 0.921875, 1, 0.675781, 0.954407, 1, 1, 0.772705, 0.40625, 1, 1 )
+
+[sub_resource type="GradientTexture" id=432]
+gradient = SubResource( 349 )
+
+[sub_resource type="Gradient" id=422]
+offsets = PoolRealArray( 0, 0.223684, 0.467105, 0.743421, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 1, 0.152344, 0.728485, 1, 0.591826, 0.459396, 0.628906, 1, 1, 0, 0.963867, 1, 0, 0, 0, 1 )
+
+[sub_resource type="GradientTexture" id=433]
+gradient = SubResource( 422 )
+
+[sub_resource type="ShaderMaterial" id=351]
+resource_local_to_scene = true
+shader = ExtResource( 6 )
+shader_param/pos = 1.0
+shader_param/grad = SubResource( 432 )
+shader_param/grad_highlight = SubResource( 433 )
+
+[sub_resource type="DynamicFontData" id=434]
+font_path = "res://Assets/Fonts/Jura-Bold.ttf"
+
+[sub_resource type="DynamicFont" id=429]
+size = 10
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 434 )
+
+[sub_resource type="DynamicFont" id=345]
+size = 14
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+extra_spacing_bottom = 4
+extra_spacing_char = 2
+font_data = SubResource( 434 )
+
+[sub_resource type="StyleBoxEmpty" id=347]
+content_margin_top = 10.0
+
+[sub_resource type="StyleBoxEmpty" id=348]
+content_margin_top = 10.0
+
+[sub_resource type="DynamicFont" id=428]
+size = 12
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 434 )
+
+[node name="TrelloReportTool" type="ColorRect"]
+pause_mode = 2
+material = SubResource( 426 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 200
+custom_constants/margin_top = 100
+custom_constants/margin_left = 200
+custom_constants/margin_bottom = 100
+
+[node name="Main" type="PanelContainer" parent="Margin"]
+material = SubResource( 427 )
+margin_left = 200.0
+margin_top = 100.0
+margin_right = 760.0
+margin_bottom = 440.0
 rect_min_size = Vector2( 300, 260 )
+custom_styles/panel = SubResource( 343 )
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="TimeoutTimer" type="Timer" parent="."]
+[node name="TimeoutTimer" type="Timer" parent="Margin/Main"]
 wait_time = 0.2
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="HTTPRequest" type="HTTPRequest" parent="Margin/Main"]
 
-[node name="Content" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-margin_left = 10.0
-margin_top = 10.0
-margin_right = -10.0
-margin_bottom = 10.0
+[node name="Content" type="VBoxContainer" parent="Margin/Main"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 559.0
+margin_bottom = 339.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 0
@@ -35,122 +177,242 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Content"]
-margin_right = 280.0
-margin_bottom = 14.0
-text = "Trello Reporting Tool"
+[node name="HeaderLabel" type="Label" parent="Margin/Main/Content"]
+modulate = Color( 0.501961, 0.952941, 1, 1 )
+margin_right = 558.0
+margin_bottom = 24.0
+custom_fonts/font = SubResource( 346 )
+text = "Feedback"
 align = 1
 
-[node name="HSeparator" type="HSeparator" parent="Content"]
-margin_top = 14.0
-margin_right = 280.0
-margin_bottom = 18.0
+[node name="CloseFormButton" parent="Margin/Main/Content/HeaderLabel" instance=ExtResource( 5 )]
+material = SubResource( 351 )
+margin_left = 535.0
+margin_top = 1.0
+margin_right = 557.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 22, 22 )
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "X"
 
-[node name="MarginContainer" type="MarginContainer" parent="Content"]
-margin_top = 18.0
-margin_right = 280.0
+[node name="HSeparator" type="HSeparator" parent="Margin/Main/Content"]
+modulate = Color( 0.301961, 1.85882, 1.78824, 0.329412 )
+margin_top = 24.0
+margin_right = 558.0
 margin_bottom = 28.0
+
+[node name="DisclaimerLabel" type="Label" parent="Margin/Main/Content"]
+modulate = Color( 0.447059, 0.772549, 0.756863, 1 )
+margin_top = 28.0
+margin_right = 558.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/line_spacing = 0
+custom_fonts/font = SubResource( 429 )
+text = "By sending feedback, you give consent to sending your feedback including
+a game screenshot and your current save game state."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/Main/Content"]
+margin_top = 54.0
+margin_right = 558.0
+margin_bottom = 64.0
 rect_min_size = Vector2( 0, 10 )
 
-[node name="Form" type="VBoxContainer" parent="Content"]
-margin_top = 28.0
-margin_right = 280.0
-margin_bottom = 235.0
+[node name="Form" type="VBoxContainer" parent="Margin/Main/Content"]
+margin_top = 64.0
+margin_right = 558.0
+margin_bottom = 338.0
+size_flags_vertical = 3
 custom_constants/separation = 0
 
-[node name="ShortDescLabel" type="Label" parent="Content/Form"]
-margin_right = 280.0
-margin_bottom = 14.0
-text = "Title"
+[node name="TypeLabel" type="Label" parent="Margin/Main/Content/Form"]
+modulate = Color( 0.175824, 1, 0.96137, 1 )
+margin_right = 558.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/line_spacing = -40
+custom_fonts/font = SubResource( 345 )
+text = "Category"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ShortDescEdit" type="LineEdit" parent="Content/Form"]
-margin_top = 14.0
-margin_right = 280.0
-margin_bottom = 38.0
+[node name="Type" type="OptionButton" parent="Margin/Main/Content/Form"]
+margin_top = 22.0
+margin_right = 558.0
+margin_bottom = 44.0
+size_flags_horizontal = 3
+theme = ExtResource( 4 )
 
-[node name="Spacer" type="MarginContainer" parent="Content/Form"]
-margin_top = 38.0
-margin_right = 280.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 0, 10 )
+[node name="LongDescLabel" type="Label" parent="Margin/Main/Content/Form"]
+modulate = Color( 0.175824, 1, 0.96137, 1 )
+margin_top = 44.0
+margin_right = 558.0
+margin_bottom = 76.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/line_spacing = -40
+custom_fonts/font = SubResource( 345 )
+custom_styles/normal = SubResource( 347 )
+text = "Your Message"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="LongDescLabel" type="Label" parent="Content/Form"]
-margin_top = 48.0
-margin_right = 280.0
-margin_bottom = 62.0
-text = "Description"
-
-[node name="LongDescEdit" type="TextEdit" parent="Content/Form"]
-margin_top = 62.0
-margin_right = 280.0
-margin_bottom = 167.0
+[node name="LongDescEdit" type="TextEdit" parent="Margin/Main/Content/Form"]
+margin_top = 76.0
+margin_right = 558.0
+margin_bottom = 196.0
 rect_min_size = Vector2( 0, 105 )
 size_flags_vertical = 3
+theme = ExtResource( 4 )
 
-[node name="Spacer2" type="MarginContainer" parent="Content/Form"]
-margin_top = 167.0
-margin_right = 280.0
-margin_bottom = 187.0
+[node name="ContactLabel" type="Label" parent="Margin/Main/Content/Form"]
+visible = false
+modulate = Color( 0.175824, 1, 0.96137, 1 )
+margin_top = 195.0
+margin_right = 558.0
+margin_bottom = 227.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/line_spacing = -40
+custom_fonts/font = SubResource( 345 )
+custom_styles/normal = SubResource( 348 )
+text = "Your contact (email or discord handle. Can be left empty)"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ContactEdit" type="LineEdit" parent="Margin/Main/Content/Form"]
+visible = false
+margin_top = 227.0
+margin_right = 558.0
+margin_bottom = 249.0
+theme = ExtResource( 4 )
+
+[node name="Checkbox" type="HBoxContainer" parent="Margin/Main/Content/Form"]
+margin_top = 196.0
+margin_right = 558.0
+margin_bottom = 232.0
+rect_min_size = Vector2( 0, 36 )
+custom_constants/separation = 8
+
+[node name="DataCheckboxButton" type="Button" parent="Margin/Main/Content/Form/Checkbox"]
+margin_top = 12.0
+margin_right = 25.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 25, 24 )
+size_flags_vertical = 8
+theme = ExtResource( 4 )
+text = "X"
+align = 0
+
+[node name="DataCheckboxLabel" type="Label" parent="Margin/Main/Content/Form/Checkbox"]
+modulate = Color( 0.175824, 1, 0.96137, 1 )
+margin_left = 33.0
+margin_top = 4.0
+margin_right = 558.0
+margin_bottom = 36.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+size_flags_vertical = 8
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/line_spacing = -4
+custom_fonts/font = SubResource( 428 )
+custom_styles/normal = SubResource( 348 )
+text = "Include anonymous game logs."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer2" type="MarginContainer" parent="Margin/Main/Content/Form"]
+margin_top = 232.0
+margin_right = 558.0
+margin_bottom = 252.0
 rect_min_size = Vector2( 0, 20 )
 
-[node name="Custom" type="HBoxContainer" parent="Content/Form"]
-margin_top = 187.0
-margin_right = 280.0
-margin_bottom = 207.0
+[node name="Custom" type="HBoxContainer" parent="Margin/Main/Content/Form"]
+margin_top = 252.0
+margin_right = 558.0
+margin_bottom = 274.0
 
-[node name="Type" type="OptionButton" parent="Content/Form/Custom"]
-margin_right = 138.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
-pressed = true
-
-[node name="Send" type="Button" parent="Content/Form/Custom"]
-margin_left = 142.0
-margin_right = 280.0
-margin_bottom = 20.0
-size_flags_horizontal = 3
+[node name="Send" parent="Margin/Main/Content/Form/Custom" instance=ExtResource( 5 )]
+material = SubResource( 351 )
+margin_left = 0.0
+margin_right = 558.0
+size_flags_vertical = 4
 disabled = true
-text = "Send"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "Send Feedback"
 
-[node name="Feedback" type="VBoxContainer" parent="Content"]
+[node name="Feedback" type="VBoxContainer" parent="Margin/Main/Content"]
 visible = false
-margin_top = 235.0
-margin_right = 280.0
-margin_bottom = 347.0
+margin_top = 47.0
+margin_right = 558.0
+margin_bottom = 338.0
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="Content/Feedback"]
-margin_right = 280.0
-margin_bottom = 70.0
-rect_min_size = Vector2( 0, 70 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="feedback_label" type="Label" parent="Content/Feedback"]
-margin_top = 74.0
-margin_right = 280.0
+[node name="MarginContainer" type="MarginContainer" parent="Margin/Main/Content/Feedback"]
+margin_right = 558.0
 margin_bottom = 88.0
-size_flags_horizontal = 3
-text = "report"
-align = 1
+size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="close_button" type="Button" parent="Content/Feedback"]
+[node name="feedback_label" type="Label" parent="Margin/Main/Content/Feedback"]
+modulate = Color( 0.175824, 1, 0.96137, 1 )
 margin_top = 92.0
-margin_right = 280.0
-margin_bottom = 112.0
-text = "Processing..."
+margin_right = 558.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 0, 80 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_constants/line_spacing = -40
+custom_fonts/font = SubResource( 345 )
+text = "Category"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
-[connection signal="text_changed" from="Content/Form/ShortDescEdit" to="." method="_on_ShortDescEdit_text_changed"]
-[connection signal="text_changed" from="Content/Form/LongDescEdit" to="." method="_on_LongDescEdit_text_changed"]
-[connection signal="pressed" from="Content/Form/Custom/Send" to="." method="_on_Send_pressed"]
-[connection signal="pressed" from="Content/Feedback/close_button" to="." method="_on_close_button_pressed"]
+[node name="close_button" parent="Margin/Main/Content/Feedback" instance=ExtResource( 5 )]
+material = SubResource( 351 )
+margin_left = 204.0
+margin_top = 176.0
+margin_right = 354.0
+margin_bottom = 198.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+disabled = true
+text = "Send Feedback"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Margin/Main/Content/Feedback"]
+margin_top = 202.0
+margin_right = 558.0
+margin_bottom = 291.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="pressed" from="Margin/Main/Content/HeaderLabel/CloseFormButton" to="Margin/Main" method="_on_CloseFormButton_pressed"]
+[connection signal="text_changed" from="Margin/Main/Content/Form/LongDescEdit" to="Margin/Main" method="_on_LongDescEdit_text_changed"]
+[connection signal="pressed" from="Margin/Main/Content/Form/Checkbox/DataCheckboxButton" to="Margin/Main" method="_on_DataCheckboxButton_pressed"]
+[connection signal="pressed" from="Margin/Main/Content/Form/Custom/Send" to="Margin/Main" method="_on_Send_pressed"]
+[connection signal="pressed" from="Margin/Main/Content/Feedback/close_button" to="Margin/Main" method="_on_close_button_pressed"]
