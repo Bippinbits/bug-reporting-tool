@@ -1,0 +1,2 @@
+extends BugReportingBackendFacade
+class_name BugReportingBackendDummy

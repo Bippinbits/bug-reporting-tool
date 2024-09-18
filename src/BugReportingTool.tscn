@@ -1,0 +1,166 @@
+[gd_scene load_steps=8 format=3 uid="uid://x443uq6duey4"]
+
+[ext_resource type="Script" path="res://src/BugReportingTool.gd" id="1_b7pqc"]
+[ext_resource type="Resource" uid="uid://dgjyn1t0qxy27" path="res://src/Config.tres" id="2_23wi6"]
+
+[sub_resource type="ShaderMaterial" id="426"]
+
+[sub_resource type="ShaderMaterial" id="427"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r1vc4"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yaiwb"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k6n15"]
+resource_local_to_scene = true
+
+[node name="TrelloReportTool" type="ColorRect"]
+material = SubResource("426")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Main" type="PanelContainer" parent="Margin"]
+material = SubResource("427")
+layout_mode = 2
+script = ExtResource("1_b7pqc")
+config = ExtResource("2_23wi6")
+
+[node name="Content" type="VBoxContainer" parent="Margin/Main"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HeaderLabel" type="Label" parent="Margin/Main/Content"]
+modulate = Color(0.501961, 0.952941, 1, 1)
+layout_mode = 2
+text = "Feedback"
+horizontal_alignment = 1
+
+[node name="CloseFormButton" type="Button" parent="Margin/Main/Content/HeaderLabel"]
+material = SubResource("ShaderMaterial_r1vc4")
+layout_mode = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "X"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/Main/Content"]
+modulate = Color(0.301961, 1.85882, 1.78824, 0.329412)
+layout_mode = 2
+
+[node name="DisclaimerLabel" type="Label" parent="Margin/Main/Content"]
+modulate = Color(0.447059, 0.772549, 0.756863, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "By sending feedback, you give consent to sending your feedback including
+a game screenshot and your current save game state."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/Main/Content"]
+layout_mode = 2
+
+[node name="Form" type="VBoxContainer" parent="Margin/Main/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TypeLabel" type="Label" parent="Margin/Main/Content/Form"]
+modulate = Color(0.175824, 1, 0.96137, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Category"
+vertical_alignment = 1
+
+[node name="Type" type="OptionButton" parent="Margin/Main/Content/Form"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LongDescLabel" type="Label" parent="Margin/Main/Content/Form"]
+modulate = Color(0.175824, 1, 0.96137, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Your Message"
+vertical_alignment = 1
+
+[node name="LongDescEdit" type="TextEdit" parent="Margin/Main/Content/Form"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ContactLabel" type="Label" parent="Margin/Main/Content/Form"]
+modulate = Color(0.175824, 1, 0.96137, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Optional: Contact Info (email or discord handle. Can be left empty)"
+vertical_alignment = 1
+
+[node name="ContactEdit" type="LineEdit" parent="Margin/Main/Content/Form"]
+layout_mode = 2
+
+[node name="Checkbox" type="HBoxContainer" parent="Margin/Main/Content/Form"]
+layout_mode = 2
+
+[node name="DataCheckboxButton" type="Button" parent="Margin/Main/Content/Form/Checkbox"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "X"
+
+[node name="DataCheckboxLabel" type="Label" parent="Margin/Main/Content/Form/Checkbox"]
+modulate = Color(0.175824, 1, 0.96137, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+text = "Include anonymous game logs."
+
+[node name="Spacer2" type="MarginContainer" parent="Margin/Main/Content/Form"]
+layout_mode = 2
+
+[node name="Custom" type="HBoxContainer" parent="Margin/Main/Content/Form"]
+layout_mode = 2
+
+[node name="Send" type="Button" parent="Margin/Main/Content/Form/Custom"]
+material = SubResource("ShaderMaterial_yaiwb")
+layout_mode = 2
+size_flags_vertical = 4
+disabled = true
+text = "Send Feedback"
+
+[node name="Feedback" type="VBoxContainer" parent="Margin/Main/Content"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Margin/Main/Content/Feedback"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="feedback_label" type="Label" parent="Margin/Main/Content/Feedback"]
+modulate = Color(0.175824, 1, 0.96137, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Category"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="close_button" type="Button" parent="Margin/Main/Content/Feedback"]
+material = SubResource("ShaderMaterial_k6n15")
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+disabled = true
+text = "Send Feedback"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Margin/Main/Content/Feedback"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[connection signal="text_changed" from="Margin/Main/Content/Form/LongDescEdit" to="Margin/Main" method="_on_LongDescEdit_text_changed"]
+[connection signal="pressed" from="Margin/Main/Content/Form/Checkbox/DataCheckboxButton" to="Margin/Main" method="_on_DataCheckboxButton_pressed"]
+[connection signal="pressed" from="Margin/Main/Content/Form/Custom/Send" to="Margin/Main" method="_on_Send_pressed"]

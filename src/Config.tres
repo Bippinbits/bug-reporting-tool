@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BugReportingConfig" load_steps=2 format=3 uid="uid://dgjyn1t0qxy27"]
+
+[ext_resource type="Script" path="res://src/ReportingConfig.gd" id="1_qj3jp"]
+
+[resource]
+script = ExtResource("1_qj3jp")
+proxy_url = "https://proxy.example/proxy.php"
+backend = 1
+categories = Array[String](["Test"])
