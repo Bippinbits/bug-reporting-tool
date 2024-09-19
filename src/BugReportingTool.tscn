@@ -93,6 +93,22 @@ vertical_alignment = 1
 [node name="LongDescEdit" type="TextEdit" parent="Margin/Main/Content/Form"]
 layout_mode = 2
 size_flags_vertical = 3
+text = "[Problem]
+Describe the issue with the game that you experienced:
+
+[Steps before]
+What did you do before the problem occured?
+
+[Expectation]
+What should happen instead?
+"
+placeholder_text = "[Problem]
+Describe the issue with the game that you experience.
+[Steps before]
+What did you do before the problem happened.
+[Expectation]
+What did you expect the game should have done instead.
+"
 
 [node name="AttachmentsVBox" type="VBoxContainer" parent="Margin/Main/Content/Form"]
 unique_name_in_owner = true
