@@ -41,10 +41,10 @@ func create_backend() -> BugReportingBackendFacade:
 	return BugReportingBackendFacade.new()
 
 func show_window():
-	screenshot_data = get_viewport().get_texture().get_data()
+	screenshot_data = get_viewport().get_texture().get_image()
 	screenshot_data.flip_y()
 	main_window.show()
-	report_hash = str( round(hash(str(Time.get_datetime_string_from_system()) + OS.get_unique_id() )*0.00001) )
+	report_hash = str((hash(str(Time.get_datetime_string_from_system()) + OS.get_unique_id() )))
 	data_button.text = "X"
 	include_data = true
 	$Content/Form.show()
@@ -82,8 +82,7 @@ func collect_attachments() -> Array[Attachment]:
 			if logs.size() > 1:
 				r.append( BugReportingTool.Attachment.from_path(logs[1]) )
 	
-	#add game-specific attachments here
-	#savefiles, meta-files etc
+	BugReportingToolExtension.collect_additional_attachments(r)
 	
 	return r
 	
@@ -93,8 +92,7 @@ func collect_info() -> Array[String]:
 	r.append("Graphics Adapter: " + RenderingServer.get_video_adapter_name() + " ( " + RenderingServer.get_video_adapter_vendor() + " )")
 	r.append("Operating System: " + OS.get_name() )
 	
-	#add game-specific infos here
-	#version, difficulty, mission,settings etc
+	BugReportingToolExtension.collect_additional_infos(r)
 	return r
 
 func _input(event):
@@ -170,15 +168,12 @@ class DispatchArgs:
 	var attachments:Array[Attachment]
 
 class Attachment:
-	# XXX: This is to prevent reference cycles (and thus memleaks), see:
-	# https://github.com/godotengine/godot/issues/27491
-	class Struct:
-		var filename: String
-		var mimetype: String
-		var data: PackedByteArray
+	var filename: String
+	var mimetype: String
+	var data: PackedByteArray
 
-	static func from_path(path: String) -> Attachment.Struct:
-		var obj = Attachment.Struct.new()
+	static func from_path(path: String) -> Attachment:
+		var obj = Attachment.new()
 		obj.filename = path.get_file()
 
 		match path.get_extension():
@@ -200,17 +195,16 @@ class Attachment:
 		file.close()
 		return obj
 
-	static func from_image(img: Image, name: String) -> Attachment.Struct:
+	static func from_image(img: Image, name: String) -> Attachment:
 		img.shrink_x2()
-		var obj = Attachment.Struct.new()
+		var obj = Attachment.new()
 		obj.filename = name + '.png'
 		obj.mimetype = 'image/png'
 		obj.data = img.save_png_to_buffer()
 		return obj
 	
-	
-	static func from_string(string: String, name: String) -> Attachment.Struct:
-		var obj = Attachment.Struct.new()
+	static func from_string(string: String, name: String) -> Attachment:
+		var obj = Attachment.new()
 		obj.filename = name + '.txt'
 		obj.mimetype = 'text/plain'
 		obj.data = string.to_utf8_buffer()

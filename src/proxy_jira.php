@@ -47,20 +47,33 @@ $headers = [
     'Content-Type: application/json'
 ];
 
-// Prepare the issue creation payload
+// Prepare the issue creation payload using ADF format for the description
 $issue_data = [
     'fields' => [
         'project' => [
             'key' => JIRA_PROJECT_KEY
         ],
         'summary' => $_POST['name'],
-        'description' => $_POST['desc'],
+        'description' => [
+            'type' => 'doc',
+            'version' => 1,
+            'content' => [
+                [
+                    'type' => 'paragraph',
+                    'content' => [
+                        [
+                            'type' => 'text',
+                            'text' => $_POST['desc']
+                        ]
+                    ]
+                ]
+            ]
+        ],
         'issuetype' => [
             'name' => JIRA_ISSUE_TYPE
         ]
     ]
 ];
-
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, JIRA_BASE_URL.'/rest/api/3/issue/');
 curl_setopt($ch, CURLOPT_POST, true);
@@ -106,12 +119,23 @@ if (is_array($_FILES['attachments'] ?? null)) {
             'X-Atlassian-Token: no-check'
         ]);
         curl_setopt($ch, CURLOPT_POSTFIELDS, ['file' => $attachment]);
-
-        if (curl_exec($ch) === false) {
+        
+        $response = curl_exec($ch);
+        if ($response === false) {
             http_response_code(502);
             curl_close($ch);
-            exit('Unable to upload attachment '.($index + 1).' to issue');
+            exit('Unable to upload attachment ' . ($index + 1) . ' to issue');
         }
+
+        // Optionally check for response status to ensure upload success
+        $response_info = curl_getinfo($ch);
+        if ($response_info['http_code'] !== 200) {
+            http_response_code(502);
+            curl_close($ch);
+            exit('Attachment upload failed with response: ' . $response);
+        }
+
+        curl_close($ch);
     }
 }
 

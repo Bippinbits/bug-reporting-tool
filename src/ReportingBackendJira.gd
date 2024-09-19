@@ -1,7 +1,5 @@
 extends BugReportingBackendFacade
 class_name BugReportingBackendJira
 
-func dispatch(args : BugReportingTool.DispatchArgs):
-	
-	
+func add_platform_specific_dispatch_data(args : BugReportingTool.DispatchArgs, data :Dictionary):
 	pass
