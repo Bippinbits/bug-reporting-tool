@@ -60,8 +60,8 @@ layout_mode = 2
 modulate = Color(0.447059, 0.772549, 0.756863, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "By sending feedback, you give consent to sending your feedback including
-a game screenshot and your current save game state."
+text = "By clicking on \"Send Feedback\", you consent to sending your feedback including
+a game screenshot, game logs and your current save game state."
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -94,36 +94,49 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
+[node name="AttachmentsVBox" type="VBoxContainer" parent="Margin/Main/Content/Form"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="AttachmentsLabel" type="Label" parent="Margin/Main/Content/Form/AttachmentsVBox"]
+modulate = Color(0.175824, 1, 0.96137, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Attachments"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Margin/Main/Content/Form/AttachmentsVBox"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="DefaultAttachmentsLabel" type="Label" parent="Margin/Main/Content/Form/AttachmentsVBox/HBoxContainer"]
+modulate = Color(0.529067, 0.529067, 0.529067, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Screenshot, logs, savefile "
+vertical_alignment = 1
+
+[node name="AddAttachmentButton" type="Button" parent="Margin/Main/Content/Form/AttachmentsVBox/HBoxContainer"]
+layout_mode = 2
+text = "Add +"
+alignment = 0
+
 [node name="ContactLabel" type="Label" parent="Margin/Main/Content/Form"]
 modulate = Color(0.175824, 1, 0.96137, 1)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Optional: Contact Info (email or discord handle. Can be left empty)"
+text = "Optional: Contact Info (discord handle or email) "
 vertical_alignment = 1
 
 [node name="ContactEdit" type="LineEdit" parent="Margin/Main/Content/Form"]
 layout_mode = 2
-
-[node name="Checkbox" type="HBoxContainer" parent="Margin/Main/Content/Form"]
-layout_mode = 2
-
-[node name="DataCheckboxButton" type="Button" parent="Margin/Main/Content/Form/Checkbox"]
-layout_mode = 2
-size_flags_vertical = 8
-text = "X"
-
-[node name="DataCheckboxLabel" type="Label" parent="Margin/Main/Content/Form/Checkbox"]
-modulate = Color(0.175824, 1, 0.96137, 1)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 8
-text = "Include anonymous game logs."
 
 [node name="Spacer2" type="MarginContainer" parent="Margin/Main/Content/Form"]
 layout_mode = 2
 
 [node name="Custom" type="HBoxContainer" parent="Margin/Main/Content/Form"]
 layout_mode = 2
+alignment = 1
 
 [node name="Send" type="Button" parent="Margin/Main/Content/Form/Custom"]
 material = SubResource("ShaderMaterial_yaiwb")
@@ -161,6 +174,20 @@ text = "Send Feedback"
 layout_mode = 2
 size_flags_vertical = 3
 
+[node name="AttachmentsFileDialog" type="FileDialog" parent="Margin/Main"]
+unique_name_in_owner = true
+title = "Select a File"
+ok_button_text = "Open"
+dialog_hide_on_ok = true
+dialog_autowrap = true
+file_mode = 0
+access = 2
+use_native_dialog = true
+
+[node name="ErrorDialog" type="AcceptDialog" parent="Margin/Main"]
+title = "Error: Oversized File"
+dialog_text = "Cannot attach files larger than 2MB."
+
 [connection signal="text_changed" from="Margin/Main/Content/Form/LongDescEdit" to="Margin/Main" method="_on_LongDescEdit_text_changed"]
-[connection signal="pressed" from="Margin/Main/Content/Form/Checkbox/DataCheckboxButton" to="Margin/Main" method="_on_DataCheckboxButton_pressed"]
+[connection signal="pressed" from="Margin/Main/Content/Form/AttachmentsVBox/HBoxContainer/AddAttachmentButton" to="Margin/Main" method="_on_add_attachment_button_pressed"]
 [connection signal="pressed" from="Margin/Main/Content/Form/Custom/Send" to="Margin/Main" method="_on_Send_pressed"]

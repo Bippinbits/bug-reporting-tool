@@ -8,8 +8,8 @@ var report_hash:String = ""
 var screenshot_data := Image.new()
 var include_data:bool = true
 var backend : BugReportingBackendFacade = null
+var additional_attachments = {}
 
-@onready var data_button = $Content/Form/Checkbox/DataCheckboxButton
 @onready var timer = $TimeoutTimer
 @onready var http = HTTPClient.new()
 @onready var long_text = $Content/Form/LongDescEdit
@@ -23,6 +23,8 @@ var backend : BugReportingBackendFacade = null
 
 func _ready():
 	backend = create_backend()
+	%AttachmentsFileDialog.file_selected.connect(on_attachment_selected)
+	
 	if config.categories.size() > 0:
 		for i in range(config.categories.size() ):
 			type_box.add_item(config.categories[i], i)
@@ -45,7 +47,6 @@ func show_window():
 	screenshot_data.flip_y()
 	main_window.show()
 	report_hash = str((hash(str(Time.get_datetime_string_from_system()) + OS.get_unique_id() )))
-	data_button.text = "X"
 	include_data = true
 	$Content/Form.show()
 	$Content/Feedback.hide()
@@ -54,6 +55,9 @@ func show_window():
 	send_button.set_disabled(true)
 	close_form_button.set_disabled(false)
 	type_box.selected = 0
+	
+	for x in additional_attachments:
+		remove_attachment(x)
 
 func _on_Send_pressed():
 	close_form_button.set_disabled(true)
@@ -84,6 +88,8 @@ func collect_attachments() -> Array[Attachment]:
 	
 	BugReportingToolExtension.collect_additional_attachments(r)
 	
+	for x in additional_attachments:
+		r.append(BugReportingTool.Attachment.from_path(x))
 	return r
 	
 func collect_info() -> Array[String]:
@@ -152,9 +158,40 @@ func dir_contents(path:String):
 func _on_CloseFormButton_pressed():
 	main_window.hide()
 
-func _on_DataCheckboxButton_pressed():
-	include_data = !include_data
-	data_button.text = "X" if include_data else ""
+func _on_add_attachment_button_pressed() -> void:
+	%AttachmentsFileDialog.show()
+
+func on_attachment_selected(path:String):
+	var size = get_file_size(path)
+	var oversized = size > 2_000_000 #2MB
+	if oversized:
+		$ErrorDialog.popup_centered()
+		return
+	
+	var box = HBoxContainer.new()
+	var l = Label.new()
+	l.text = path
+	box.add_child(l)
+	var b = Button.new()
+	b.text = "Remove -"
+	b.pressed.connect(func():remove_attachment(path))
+	box.add_child(b)
+	additional_attachments[path] =  box
+	%AttachmentsVBox.add_child(box)
+
+func remove_attachment(i):
+	additional_attachments[i].queue_free()
+	additional_attachments.erase(i)
+
+func get_file_size(path: String) -> int:
+	var file = FileAccess.open(path, FileAccess.ModeFlags.READ)
+	
+	if file:
+		var size = file.get_length()
+		file.close()
+		return size
+	else:
+		return -1  # Return -1 if the file can't be opened
 
 class DispatchArgs:
 	var node:Node
