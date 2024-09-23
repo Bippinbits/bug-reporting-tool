@@ -10,8 +10,6 @@ var include_data:bool = true
 var backend : BugReportingBackendFacade = null
 var additional_attachments = {}
 
-@onready var timer = $TimeoutTimer
-@onready var http = HTTPClient.new()
 @onready var long_text = $Content/Form/LongDescEdit
 @onready var contact_text = $Content/Form/ContactEdit
 @onready var send_button = $Content/Form/Custom/Send
@@ -44,20 +42,23 @@ func create_backend() -> BugReportingBackendFacade:
 
 func show_window():
 	screenshot_data = get_viewport().get_texture().get_image()
-	screenshot_data.flip_y()
 	main_window.show()
 	report_hash = str((hash(str(Time.get_datetime_string_from_system()) + OS.get_unique_id() )))
 	include_data = true
 	$Content/Form.show()
 	$Content/Feedback.hide()
 	long_text.grab_focus()
-	long_text.text = ""
+	long_text.text = long_text.placeholder_text
 	send_button.set_disabled(true)
 	close_form_button.set_disabled(false)
 	type_box.selected = 0
 	
 	for x in additional_attachments:
 		remove_attachment(x)
+		
+	main_window.scale = Vector2.ZERO
+	var tw = create_tween()
+	tw.tween_property(main_window,"scale", Vector2.ONE, 0.1)
 
 func _on_Send_pressed():
 	close_form_button.set_disabled(true)
@@ -68,7 +69,7 @@ func dispatch():
 	var args = DispatchArgs.new()
 	args.node = self
 	args.config = config
-	args.title = long_text.text.left(15)
+	args.title = (long_text.text as String).substr(10).left(15) #skip [Problem]
 	args.message = long_text.text
 	args.report_hash = report_hash
 	args.callback = change_feedback
@@ -103,10 +104,14 @@ func collect_info() -> Array[String]:
 
 func _input(event):
 	if not main_window.visible:
-		return
-	if event.is_action_pressed("ui_end") or event.is_action_pressed("ui_cancel") and not close_form_button.disabled:
-		main_window.hide()
-		get_tree().set_input_as_handled()
+		if event.is_action_pressed("send_feedback"):
+			show_window()
+			get_viewport().set_input_as_handled()
+	else:
+		if event.is_action_pressed("send_feedback") or event.is_action_pressed("ui_end") \
+		or event.is_action_pressed("ui_cancel") and not close_form_button.disabled:
+			main_window.hide()
+			get_viewport().set_input_as_handled()
 
 func show_feedback():
 	#disable all input fields and show a short message about the current status
@@ -161,6 +166,9 @@ func _on_CloseFormButton_pressed():
 func _on_add_attachment_button_pressed() -> void:
 	%AttachmentsFileDialog.show()
 
+func _on_close_form_button_pressed() -> void:
+	main_window.hide()
+
 func on_attachment_selected(path:String):
 	var size = get_file_size(path)
 	var oversized = size > 2_000_000 #2MB
@@ -212,7 +220,6 @@ class Attachment:
 	static func from_path(path: String) -> Attachment:
 		var obj = Attachment.new()
 		obj.filename = path.get_file()
-
 		match path.get_extension():
 			'png':
 				obj.mimetype = 'image/png'

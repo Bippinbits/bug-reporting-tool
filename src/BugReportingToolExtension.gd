@@ -8,5 +8,6 @@ static func collect_additional_attachments(arr : Array[BugReportingTool.Attachme
 
 static func collect_additional_infos(arr : Array[String]):
 	#add game-specific infos here
-	#version, difficulty, mission,settings etc
-	pass
+	arr.append("Version: " + GameWorld.version)
+	arr.append("DevMode: " + str(GameWorld.devMode))
+	arr.append("Mission: " + str(Data.ofOr("mission.current_id","unknown")))

@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://x443uq6duey4"]
+[gd_scene load_steps=9 format=3 uid="uid://x443uq6duey4"]
 
 [ext_resource type="Script" path="res://src/BugReportingTool.gd" id="1_b7pqc"]
+[ext_resource type="Theme" uid="uid://doo7pw20m4krt" path="res://src/BugReportingToolTheme.tres" id="1_ony2s"]
 [ext_resource type="Resource" uid="uid://dgjyn1t0qxy27" path="res://src/Config.tres" id="2_23wi6"]
 
 [sub_resource type="ShaderMaterial" id="426"]
@@ -16,11 +17,12 @@ resource_local_to_scene = true
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_k6n15"]
 resource_local_to_scene = true
 
-[node name="TrelloReportTool" type="ColorRect"]
+[node name="BugReportingTool" type="ColorRect"]
 material = SubResource("426")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource("1_ony2s")
 color = Color(0, 0, 0, 1)
 
 [node name="Margin" type="MarginContainer" parent="."]
@@ -40,10 +42,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HeaderLabel" type="Label" parent="Margin/Main/Content"]
-modulate = Color(0.501961, 0.952941, 1, 1)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "Feedback"
+theme_override_font_sizes/font_size = 32
+text = "Rückmeldungsformularerfassungsvorschrift 2b
+FEEDBACK | BUG REPORT"
 horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
 
 [node name="CloseFormButton" type="Button" parent="Margin/Main/Content/HeaderLabel"]
 material = SubResource("ShaderMaterial_r1vc4")
@@ -52,12 +58,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "X"
 
-[node name="HSeparator" type="HSeparator" parent="Margin/Main/Content"]
+[node name="HSeparator" type="Control" parent="Margin/Main/Content"]
 modulate = Color(0.301961, 1.85882, 1.78824, 0.329412)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
 [node name="DisclaimerLabel" type="Label" parent="Margin/Main/Content"]
-modulate = Color(0.447059, 0.772549, 0.756863, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "By clicking on \"Send Feedback\", you consent to sending your feedback including
@@ -73,6 +79,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="TypeLabel" type="Label" parent="Margin/Main/Content/Form"]
+visible = false
 modulate = Color(0.175824, 1, 0.96137, 1)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -80,11 +87,11 @@ text = "Category"
 vertical_alignment = 1
 
 [node name="Type" type="OptionButton" parent="Margin/Main/Content/Form"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="LongDescLabel" type="Label" parent="Margin/Main/Content/Form"]
-modulate = Color(0.175824, 1, 0.96137, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Your Message"
@@ -93,19 +100,12 @@ vertical_alignment = 1
 [node name="LongDescEdit" type="TextEdit" parent="Margin/Main/Content/Form"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "[Problem]
-Describe the issue with the game that you experienced:
-
-[Steps before]
-What did you do before the problem occured?
-
-[Expectation]
-What should happen instead?
-"
 placeholder_text = "[Problem]
 Describe the issue with the game that you experience.
+
 [Steps before]
 What did you do before the problem happened.
+
 [Expectation]
 What did you expect the game should have done instead.
 "
@@ -115,7 +115,6 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="AttachmentsLabel" type="Label" parent="Margin/Main/Content/Form/AttachmentsVBox"]
-modulate = Color(0.175824, 1, 0.96137, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Attachments"
@@ -138,7 +137,6 @@ text = "Add +"
 alignment = 0
 
 [node name="ContactLabel" type="Label" parent="Margin/Main/Content/Form"]
-modulate = Color(0.175824, 1, 0.96137, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Optional: Contact Info (discord handle or email) "
@@ -158,6 +156,7 @@ alignment = 1
 material = SubResource("ShaderMaterial_yaiwb")
 layout_mode = 2
 size_flags_vertical = 4
+theme_override_font_sizes/font_size = 28
 disabled = true
 text = "Send Feedback"
 
@@ -192,7 +191,7 @@ size_flags_vertical = 3
 
 [node name="AttachmentsFileDialog" type="FileDialog" parent="Margin/Main"]
 unique_name_in_owner = true
-title = "Select a File"
+title = "Open a File"
 ok_button_text = "Open"
 dialog_hide_on_ok = true
 dialog_autowrap = true
@@ -204,6 +203,8 @@ use_native_dialog = true
 title = "Error: Oversized File"
 dialog_text = "Cannot attach files larger than 2MB."
 
+[connection signal="pressed" from="Margin/Main/Content/HeaderLabel/CloseFormButton" to="Margin/Main" method="_on_close_form_button_pressed"]
 [connection signal="text_changed" from="Margin/Main/Content/Form/LongDescEdit" to="Margin/Main" method="_on_LongDescEdit_text_changed"]
 [connection signal="pressed" from="Margin/Main/Content/Form/AttachmentsVBox/HBoxContainer/AddAttachmentButton" to="Margin/Main" method="_on_add_attachment_button_pressed"]
 [connection signal="pressed" from="Margin/Main/Content/Form/Custom/Send" to="Margin/Main" method="_on_Send_pressed"]
+[connection signal="pressed" from="Margin/Main/Content/Feedback/close_button" to="Margin/Main" method="_on_close_button_pressed"]

@@ -1,0 +1,34 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://doo7pw20m4krt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dqp6m"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_15k6r"]
+
+[resource]
+Button/colors/font_color = Color(1, 0.872624, 0.273714, 1)
+Button/colors/font_disabled_color = Color(0.493761, 0.372916, 0.0591066, 0.5)
+Button/fonts/font = null
+Button/styles/disabled = SubResource("StyleBoxFlat_dqp6m")
+Button/styles/focus = SubResource("StyleBoxFlat_dqp6m")
+Button/styles/hover = SubResource("StyleBoxFlat_dqp6m")
+Button/styles/normal = SubResource("StyleBoxFlat_dqp6m")
+Button/styles/pressed = SubResource("StyleBoxFlat_dqp6m")
+Label/colors/font_color = Color(0.996078, 0.701961, 0, 1)
+Label/font_sizes/font_size = 18
+Label/fonts/font = null
+TextEdit/colors/font_color = Color(0.988235, 0.701961, 0, 1)
+TextEdit/colors/font_placeholder_color = Color(1, 0.705882, 0.254902, 0.6)
+TextEdit/fonts/font = null
+TextEdit/styles/normal = SubResource("StyleBoxEmpty_15k6r")

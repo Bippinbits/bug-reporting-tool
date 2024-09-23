@@ -84,7 +84,9 @@ func dispatch(args : BugReportingTool.DispatchArgs):
 	}
 	
 	add_platform_specific_dispatch_data(args,data)
+	dispatch_internal(args,data)
 
+func dispatch_internal(args : BugReportingTool.DispatchArgs, data : Dictionary):
 	var parsed_url = parse_url(args.config.proxy_url)
 	if parsed_url.is_empty():
 		args.callback.call("Wrong proxy URL provided, can't send data :-(")
